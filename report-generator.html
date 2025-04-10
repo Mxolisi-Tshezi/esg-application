@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JSE Sustainability Disclosure Guidance Reporting</title>
+
+    <link href="report.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="header">
+      <div class="logo">
+        <svg
+          class="logo-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+        >
+          <path
+            d="M17 8l4 4-4 4v-3h-4v-2h4V8zm-9 2V8l-4 4 4 4v-3h4v-2H8zm1-6h6v2H9V4zm6 16H9v-2h6v2z"
+          />
+        </svg>
+        BESPOKE<br />INSIGHT
+      </div>
+      <div class="title">
+        JSE Sustainability Disclosure Guidance based reporting
+      </div>
+    </div>
+
+    <div id="notification" class="notification hidden">
+      <div>
+        Your report has been successfully generated. Download your ESG report.
+      </div>
+      <div class="close-notification">×</div>
+    </div>
+
+    <div class="container">
+      <div class="card">
+        <div class="progress-bar">
+          <div class="progress-line"></div>
+          <div
+            id="progress-line-filled"
+            class="progress-line-filled"
+            style="width: 0%"
+          ></div>
+
+          <div class="step active" data-step="1">
+            <div class="step-icon">
+              <span class="step-number">1</span>
+              <svg
+                class="check-icon hidden"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path
+                  d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"
+                />
+              </svg>
+            </div>
+            <div class="step-text">Governance</div>
+          </div>
+
+          <div class="step" data-step="2">
+            <div class="step-icon">
+              <span class="step-number">2</span>
+              <svg
+                class="check-icon hidden"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path
+                  d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"
+                />
+              </svg>
+            </div>
+            <div class="step-text">Social</div>
+          </div>
+
+          <div class="step" data-step="3">
+            <div class="step-icon">
+              <span class="step-number">3</span>
+              <svg
+                class="check-icon hidden"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path
+                  d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"
+                />
+              </svg>
+            </div>
+            <div class="step-text">Environmental</div>
+          </div>
+
+          <div class="step" data-step="4">
+            <div class="step-icon">
+              <span class="step-number">4</span>
+              <svg
+                class="check-icon hidden"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path
+                  d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"
+                />
+              </svg>
+            </div>
+            <div class="step-text">Generate Report</div>
+          </div>
+        </div>
+
+        <div id="governance-content" class="tab-content active">
+          <div class="tabs">
+            <div class="tab active" data-tab="board-composition">
+              Board composition
+            </div>
+            <div class="tab" data-tab="ethical-behaviour">
+              Ethical behaviour
+            </div>
+            <div class="tab" data-tab="compliance">
+              Compliance and risk management
+            </div>
+            <div class="tab" data-tab="tax">Tax transparency</div>
+          </div>
+
+          <div id="board-composition-content" class="tab-content active">
+            <div class="form-section">
+              <div class="section-title">
+                1. Board diversity
+                <svg
+                  class="info-icon"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-4h2v2h-2v-2zm0-10h2v8h-2V6z"
+                  />
+                </svg>
+              </div>
+
+              <div class="form-group">
+                <div class="form-group-half">
+                  <label class="form-label required"
+                    >Total number of Board members (#)</label
+                  >
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="total-board-members"
+                    min="0"
+                    value="10"
+                  />
+                </div>
+                <div class="form-group-half">
+                  <label class="form-label required"
+                    >Number of Board members who are Black (#)</label
+                  >
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="black-board-members"
+                    min="0"
+                    value="5"
+                  />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="form-group-half">
+                  <label class="form-label required"
+                    >Percentage of Board members who are Black (%)</label
+                  >
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="black-percentage"
+                    min="0"
+                    max="100"
+                    value="50"
+                  />
+                </div>
+                <div class="form-group-half">
+                  <label class="form-label required"
+                    >Number of Board members who are White (#)</label
+                  >
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="white-board-members"
+                    min="0"
+                    value="3"
+                  />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="form-group-half">
+                  <label class="form-label required"
+                    >Percentage of Board members who are White (%)</label
+                  >
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="white-percentage"
+                    min="0"
+                    max="100"
+                    value="30"
+                  />
+                </div>
+                <div class="form-group-half">
+                  <label class="form-label required"
+                    >Number of Board members who are Indian (#)</label
+                  >
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="indian-board-members"
+                    min="0"
+                    value="1"
+                  />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="form-group-half">
+                  <label class="form-label required"
+                    >Percentage of Board members who are Indian (%)</label
+                  >
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="indian-percentage"
+                    min="0"
+                    max="100"
+                    value="10"
+                  />
+                </div>
+                <div class="form-group-half">
+                  <label class="form-label required"
+                    >Number of Board members who are Asian (#)</label
+                  >
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="asian-board-members"
+                    min="0"
+                    value="0"
+                  />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="form-group-half">
+                  <label class="form-label required"
+                    >Percentage of Board members who are Asian (%)</label
+                  >
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="asian-percentage"
+                    min="0"
+                    max="100"
+                    value="0"
+                  />
+                </div>
+                <div class="form-group-half">
+                  <label class="form-label required"
+                    >Number of Board members who are Coloured (#)</label
+                  >
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="coloured-board-members"
+                    min="0"
+                    value="1"
+                  />
+                </div>
+              </div>
+
+            <div class="form-section">
+              <div class="section-title">
+                2. Board independence
+                <svg
+                  class="info-icon"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-4h2v2h-2v-2zm0-10h2v8h-2V6z"
+                  />
+                </svg>
+              </div>
+
+              <div class="form-group">
+                <div class="form-group-half">
+                  <label class="form-label required">Board Profile</label>
+                  <textarea
+                    class="form-control"
+                    id="board-profile"
+                    placeholder="Provide a brief description of your board's profile, including information about independence..."
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="ethical-behaviour-content" class="tab-content">
+            <!-- Ethical behaviour content will be populated here -->
+            <div class="form-section">
+              <div class="section-title">
+                1. Code of Ethics
+                <svg
+                  class="info-icon"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-4h2v2h-2v-2zm0-10h2v8h-2V6z"
+                  />
+                </svg>
+              </div>
+
+              <div class="form-group">
+                <div class="form-group-half">
+                  <label class="form-label required"
+                    >Does your company have a code of ethics?</label
+                  >
+                  <select class="form-control" id="has-code-of-ethics">
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="form-group-half">
+                  <label class="form-label">Ethics Policy Description</label>
+                  <textarea
+                    class="form-control"
+                    id="ethics-policy"
+                    placeholder="Describe your company's ethics policy..."
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="compliance-content" class="tab-content">
+            <!-- Compliance content will be populated here -->
+            <div class="form-section">
+              <div class="section-title">
+                1. Risk Management Framework
+                <svg
+                  class="info-icon"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-4h2v2h-2v-2zm0-10h2v8h-2V6z"
+                  />
+                </svg>
+              </div>
+
+              <div class="form-group">
+                <div class="form-group-half">
+                  <label class="form-label required"
+                    >Does your company have a risk management framework?</label
+                  >
+                  <select class="form-control" id="has-risk-framework">
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="form-group-half">
+                  <label class="form-label">Risk Management Description</label>
+                  <textarea
+                    class="form-control"
+                    id="risk-management"
+                    placeholder="Describe your company's risk management approach..."
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="tax-content" class="tab-content">
+            <!-- Tax transparency content will be populated here -->
+            <div class="form-section">
+              <div class="section-title">
+                1. Tax Strategy
+                <svg
+                  class="info-icon"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-4h2v2h-2v-2zm0-10h2v8h-2V6z"
+                  />
+                </svg>
+              </div>
+
+              <div class="form-group">
+                <div class="form-group-half">
+                  <label class="form-label required"
+                    >Does your company have a tax transparency policy?</label
+                  >
+                  <select class="form-control" id="has-tax-policy">
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="form-group-half">
+                  <label class="form-label">Tax Policy Description</label>
+                  <textarea
+                    class="form-control"
+                    id="tax-policy"
+                    placeholder="Describe your company's tax policy..."
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="social-content" class="tab-content hidden">
+          <!-- Social content will be populated here -->
+          <div class="form-section">
+            <div class="section-title">
+              1. Employee Metrics
+              <svg
+                class="info-icon"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path
+                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-4h2v2h-2v-2zm0-10h2v8h-2V6z"
+                />
+              </svg>
+            </div>
+
+            <div class="form-group">
+              <div class="form-group-half">
+                <label class="form-label required"
+                  >Total number of employees</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  id="total-employees"
+                  min="0"
+                />
+              </div>
+              <div class="form-group-half">
+                <label class="form-label required"
+                  >Employee turnover rate (%)</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  id="turnover-rate"
+                  min="0"
+                  max="100"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <div class="section-title">
+              2. Human Rights Policy
+              <svg
+                class="info-icon"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path
+                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-4h2v2h-2v-2zm0-10h2v8h-2V6z"
+                />
+              </svg>
+            </div>
+
+            <div class="form-group">
+              <div class="form-group-half">
+                <label class="form-label required"
+                  >Does your company have a human rights policy?</label
+                >
+                <select class="form-control" id="has-human-rights-policy">
+                  <option value="yes">Yes</option>
+                  <option value="no">No</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="form-group-half">
+                <label class="form-label"
+                  >Human Rights Policy Description</label
+                >
+                <textarea
+                  class="form-control"
+                  id="human-rights-policy"
+                  placeholder="Describe your company's human rights policy..."
+                ></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Environmental Content (This completes the section that was cut off) -->
+        <div id="environmental-content" class="tab-content hidden">
+          <div class="form-section">
+            <div class="section-title">
+              1. Carbon Emissions
+              <svg
+                class="info-icon"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path
+                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-4h2v2h-2v-2zm0-10h2v8h-2V6z"
+                />
+              </svg>
+            </div>
+            <div class="form-group">
+              <div class="form-group-half">
+                <label class="form-label required"
+                  >Total carbon emissions (metric tons CO2e)</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  id="carbon-emissions"
+                  min="0"
+                />
+              </div>
+              <div class="form-group-half">
+                <label class="form-label required"
+                  >Carbon emission reduction target (%)</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  id="carbon-target"
+                  min="0"
+                  max="100"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="form-section">
+            <div class="section-title">
+              2. Water Usage
+              <svg
+                class="info-icon"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path
+                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-4h2v2h-2v-2zm0-10h2v8h-2V6z"
+                />
+              </svg>
+            </div>
+            <div class="form-group">
+              <div class="form-group-half">
+                <label class="form-label required"
+                  >Total water consumption (kiloliters)</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  id="water-consumption"
+                  min="0"
+                />
+              </div>
+              <div class="form-group-half">
+                <label class="form-label required"
+                  >Water usage reduction target (%)</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  id="water-target"
+                  min="0"
+                  max="100"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Generate Report Content (This is the new section for step 4) -->
+        <div id="generate-report-content" class="tab-content hidden">
+          <div class="form-section">
+            <div class="section-title">
+              Report Generation
+              <svg
+                class="info-icon"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path
+                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-4h2v2h-2v-2zm0-10h2v8h-2V6z"
+                />
+              </svg>
+            </div>
+            <div class="form-group">
+              <div class="form-group-half">
+                <label class="form-label required">Company Name</label>
+                <input type="text" class="form-control" id="company-name" />
+              </div>
+              <div class="form-group-half">
+                <label class="form-label required">Reporting Year</label>
+                <select class="form-control" id="reporting-year">
+                  <option value="2024" selected>2024</option>
+                  <option value="2023">2023</option>
+                  <option value="2022">2022</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="form-group-half">
+                <label class="form-label">Report Format</label>
+                <select class="form-control" id="report-format">
+                  <option value="pdf">PDF Document</option>
+                  <option value="xlsx">Excel Spreadsheet</option>
+                  <option value="html">Web Page</option>
+                </select>
+              </div>
+              <div class="form-group-half">
+                <label class="form-label">Include Executive Summary</label>
+                <select class="form-control" id="include-summary">
+                  <option value="yes">Yes</option>
+                  <option value="no">No</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="form-group-half">
+                <label class="form-label">Additional Comments</label>
+                <textarea
+                  class="form-control"
+                  id="additional-comments"
+                  placeholder="Any additional information you would like to include in the report..."
+                ></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <script src="jse-reporting.js"></script> -->
+    <script src="jse-navigation.js"></script>
+    <!-- <script src="jse-debug.js"></script> -->
+  </body>
+</html>
