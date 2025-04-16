@@ -1,0 +1,55 @@
+/* esg-stepper-form.component.css */
+
+.stepper {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    position: relative;
+    border-bottom: 2px solid #d3d3d3;
+  }
+  
+  .step {
+    text-align: center;
+    flex: 1;
+    cursor: pointer;
+    position: relative;
+  }
+  
+  .step .circle {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #ccc;
+    margin: 0 auto 5px;
+    line-height: 30px;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .step.active .circle {
+    background-color: #4caf50;
+  }
+  
+  .step .label {
+    font-size: 0.9rem;
+    color: #333;
+  }
+  
+  .step.active .label {
+    font-weight: bold;
+    color: #4caf50;
+  }
+  
+  .nav-tabs .nav-link {
+    cursor: pointer;
+  }
+  
+  .nav-tabs .nav-link.active {
+    color: #4caf50;
+    border-color: #4caf50 #4caf50 #fff;
+  }
+  
+  .form-group label {
+    font-weight: 500;
+  }
+  

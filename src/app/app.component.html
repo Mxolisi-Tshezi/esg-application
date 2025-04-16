@@ -1,0 +1,315 @@
+<div class="container bg-white py-4 mt-5 mb-5 px-4 shadow-lg">
+  <!-- Stepper -->
+  <div class="stepper mb-4">
+    <div *ngFor="let step of steps; let i = index"
+         class="step"
+         [ngClass]="{ active: i === activeStepIndex }"
+         (click)="goToStep(i)">
+      <div class="circle">{{ i + 1 }}</div>
+      <div class="label">{{ step }}</div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <ul class="nav nav-tabs mb-3 justify-content-between">
+    <li class="nav-item" *ngFor="let tab of tabs; let i = index">
+      <a class="nav-link"
+         [class.active]="i === activeTabIndex"
+         (click)="goToTab(i)">
+        {{ tab }}
+      </a>
+    </li>
+  </ul>
+
+  <!-- Board Diversity Form (only if 1st step & 1st tab) -->
+  <div *ngIf="activeStepIndex === 0 && activeTabIndex === 0">
+    <h6>1. Board diversity</h6>
+    <hr/>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="col-lg-6 col-form-label">Total number of Board members (#)<span class="text-danger">*</span></label>
+          <div class="col-sm-6">
+            <input type="number" class="form-control" [(ngModel)]="formData.totalboardmembers">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="col-md-6 col-form-label">
+            Number of Board members who are Black (#)<span class="text-danger">*</span>
+          </label>
+          <div class="col-sm-6">
+            <input type="number" class="form-control" [(ngModel)]="formData.black.count">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="col-sm-6 col-form-label">Percentage of Board members who are black (%)<span class="text-danger">*</span></label>
+          <div class="col-sm-6">
+            <input type="number" class="form-control" [(ngModel)]="formData.black.percent">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="col-sm-6 col-form-label">
+            Number of Board members who are White (#)<span class="text-danger">*</span>
+          </label>
+          <div class="col-sm-6">
+            <input type="number" class="form-control" [(ngModel)]="formData.white.count">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="col-sm-6 col-form-label">Percentage of Board members who are White (%)<span class="text-danger">*</span></label>
+          <div class="col-sm-6">
+            <input type="number" class="form-control" [(ngModel)]="formData.white.percent">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="col-sm-6 col-form-label">
+            Number of Board members who are Indian (#)
+          </label>
+          <div class="col-sm-6">
+            <input type="number" class="form-control" [(ngModel)]="formData.indian.count">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="col-sm-6 col-form-label">Percentage of Board members who are Indian (%)<span class="text-danger">*</span></label>
+          <div class="col-sm-6">
+            <input type="number" class="form-control" [(ngModel)]="formData.indian.percent">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="col-sm-6 col-form-label">
+            Number of Board members who are Asian (#)<span class="text-danger">*</span>
+          </label>
+          <div class="col-sm-6">
+            <input type="number" class="form-control" [(ngModel)]="formData.asian.count">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="col-sm-6 col-form-label">Percentage of Board members who are Asian (%)<span class="text-danger">*</span></label>
+          <div class="col-sm-6">
+            <input type="number" class="form-control" [(ngModel)]="formData.asian.percent">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="col-sm-6 col-form-label">
+            Number of Board members who are Coloured (#)<span class="text-danger">*</span>
+          </label>
+          <div class="col-sm-6">
+            <input type="number" class="form-control" [(ngModel)]="formData.coloured.count">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="col-sm-6 col-form-label">Percentage of Board members who are Coloured (%)<span class="text-danger">*</span></label>
+          <div class="col-sm-6">
+            <input type="number" class="form-control" [(ngModel)]="formData.coloured.percent">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="col-sm-6 col-form-label">
+            Number of Board members who are below 30 (#)<span class="text-danger">*</span>
+          </label>
+          <div class="col-sm-6">
+            <input type="number" class="form-control" [(ngModel)]="formData.below30.count">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="col-sm-6 col-form-label">Percentage of Board members who are below 30 (%)<span class="text-danger">*</span></label>
+          <div class="col-sm-6">
+            <input type="number" class="form-control" [(ngModel)]="formData.below30.percent">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="col-sm-6 col-form-label">
+            Number of Board members who are between 30 and 50 (#)<span class="text-danger">*</span>
+          </label>
+          <div class="col-sm-6">
+            <input type="number" class="form-control" [(ngModel)]="formData.between30And50.count">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="col-sm-6 col-form-label">Percentage of Board members who are between 30 and 50 (%)<span class="text-danger">*</span></label>
+          <div class="col-sm-6">
+            <input type="number" class="form-control" [(ngModel)]="formData.between30And50.percent">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="col-sm-6 col-form-label">
+            Number of Board members who are over 50 (#)<span class="text-danger">*</span>
+          </label>
+          <div class="col-sm-6">
+            <input type="number" class="form-control" [(ngModel)]="formData.over50.count">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="col-sm-6 col-form-label">Percentage of Board members who are over 50 (%)<span class="text-danger">*</span></label>
+          <div class="col-sm-6">
+            <input type="number" class="form-control" [(ngModel)]="formData.over50.percent">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="col-sm-6 col-form-label">
+            Number of Board members who are Female (#)<span class="text-danger">*</span>
+          </label>
+          <div class="col-sm-6">
+            <input type="number" class="form-control" [(ngModel)]="formData.female.count">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="col-sm-6 col-form-label">Percentage of Board members who are Female (%)<span class="text-danger">*</span></label>
+          <div class="col-sm-6">
+            <input type="number" class="form-control" [(ngModel)]="formData.female.percent">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="col-sm-6 col-form-label">
+            Number of Board members who are Male (#)<span class="text-danger">*</span>
+          </label>
+          <div class="col-sm-6">
+            <input type="number" class="form-control" [(ngModel)]="formData.male.count">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="col-sm-6 col-form-label">Percentage of Board members who are Male (%)<span class="text-danger">*</span></label>
+          <div class="col-sm-6">
+            <input type="number" class="form-control" [(ngModel)]="formData.female.percent">
+          </div>
+        </div>
+      </div>
+      
+    </div>
+
+    <h6>2. Board Profile</h6>
+    <hr/>
+    <div class="row">
+      <div class="col-md-12">
+          <div class="form-group">
+            <label class="col-form-label">Board Profile<span class="text-danger">*</span></label>
+            <textarea class="form-control" rows="4" [(ngModel)]="formData.boardprofile"></textarea>
+          </div>
+      </div>
+    </div>
+  </div> 
+
+
+  <!-- Tabs -->
+<div *ngIf="activeStepIndex === 0 && activeTabIndex === 1">
+  <h6>1.Ethical Behaviour</h6>
+</div>
+
+<div *ngIf="activeStepIndex === 0 && activeTabIndex === 2">
+  <h6>1. Compliance and risk</h6>
+</div>
+
+<div *ngIf="activeStepIndex === 0 && activeTabIndex === 3">
+  <h6>1. Tax Transparency</h6>
+</div>
+
+ <!-- Step: Social -->
+ <div *ngIf="activeStepIndex === 1 && activeTabIndex === 0">
+  <h6>1.Board Composition - Social</h6>
+</div>
+
+ <div *ngIf="activeStepIndex === 1 && activeTabIndex === 1">
+  <h6>1.Ethical Behaviour - Social</h6>
+</div>
+
+<div *ngIf="activeStepIndex === 1 && activeTabIndex === 2">
+  <h6>1. Compliance and risk - social</h6>
+</div>
+
+<div *ngIf="activeStepIndex === 1 && activeTabIndex === 3">
+  <h6>1. Tax Transparency - Social</h6>
+</div>
+  
+    <!-- Step: Environmental -->
+    <div *ngIf="activeStepIndex === 2 && activeTabIndex === 0">
+      <h6>1.Board Composition - Environmental</h6>
+    </div>
+
+    <div *ngIf="activeStepIndex === 2 && activeTabIndex === 1">
+      <h6>1.Ethical Behaviour - Environmental</h6>
+    </div>
+  
+    <div *ngIf="activeStepIndex === 2 && activeTabIndex === 2">
+      <h6>1. Compliance and risk - Environmental</h6>
+    </div>
+  
+    <div *ngIf="activeStepIndex === 2 && activeTabIndex === 3">
+      <h6>1. Tax Transparency - Environmental</h6>
+    </div>
+  
+    <!-- Step: Report -->
+    <div *ngIf="activeStepIndex === 3 && activeTabIndex === 0">
+      <h6>1.Generate Report</h6>
+    </div>
+  
+   
