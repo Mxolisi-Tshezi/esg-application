@@ -1,5 +1,5 @@
 /* esg-stepper-form.component.css */
-
+/* 
 .stepper {
     display: flex;
     justify-content: space-between;
@@ -52,4 +52,194 @@
   .form-group label {
     font-weight: 500;
   }
-  
+   */
+
+/* esg-stepper-form.component.css */
+
+.stepper {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  position: relative;
+  border-bottom: 2px solid #d3d3d3;
+}
+
+.step {
+  text-align: center;
+  flex: 1;
+  cursor: pointer;
+  position: relative;
+}
+
+.step .circle {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #ccc;
+  margin: 0 auto 5px;
+  line-height: 30px;
+  color: white;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.step.active .circle {
+  background-color: #4caf50;
+}
+
+.step .bg-success {
+  background-color: #4caf50 !important;
+}
+
+.step .label {
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.step.active .label {
+  font-weight: bold;
+  color: #4caf50;
+}
+
+.nav-tabs .nav-link {
+  cursor: pointer;
+}
+
+.nav-tabs .nav-link.active {
+  color: #4caf50;
+  border-color: #4caf50 #4caf50 #fff;
+}
+
+.form-group label {
+  font-weight: 500;
+}
+
+/* Report Generation Styles */
+.report-card {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.report-card:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-success {
+  background-color: #4caf50;
+  border-color: #4caf50;
+}
+
+.btn-success:hover {
+  background-color: #3d9640;
+  border-color: #3d9640;
+}
+
+.alert-success {
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+  color: #155724;
+}
+
+.badge {
+  font-weight: 500;
+  font-size: 0.85rem;
+}
+
+.badge.bg-success {
+  background-color: #4caf50 !important;
+}
+
+.badge.bg-secondary {
+  background-color: #6c757d !important;
+}
+
+.list-group-item {
+  padding: 1rem 1.25rem;
+}
+
+.spinner-border {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Additional styles for the report generation page */
+
+.stepper-container {
+  width: 80%;
+  margin: 0 auto;
+  padding: 30px 0;
+}
+
+.alert-success {
+  background-color: #7cc14c;
+  color: white;
+  border: none;
+  padding: 12px;
+  position: relative;
+}
+
+.alert-success .btn-close {
+  color: white;
+  opacity: 1;
+}
+
+.report-success-icon {
+  color: #5bae2e;
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+
+.report-actions {
+  margin-top: 40px;
+}
+
+.btn-success {
+  background-color: #7cc14c;
+  border-color: #7cc14c;
+  padding: 8px 24px;
+}
+
+.btn-outline-secondary {
+  border-color: #d3d3d3;
+  color: #666;
+  padding: 8px 24px;
+}
+
+.report-stepper .step .circle {
+  width: 36px;
+  height: 36px;
+  background-color: #7cc14c;
+}
+
+.report-generation-complete .label {
+  font-weight: 500;
+}
+
+.report-generation-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  padding: 30px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Animation for the generating state */
+@keyframes pulse {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}
+
+.generating-text {
+  animation: pulse 1.5s infinite ease-in-out;
+  color: #5bae2e;
+}

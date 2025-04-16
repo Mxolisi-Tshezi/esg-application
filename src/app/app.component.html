@@ -1,46 +1,124 @@
 <div class="container bg-white py-4 mt-5 mb-5 px-4 shadow-lg">
+  <!-- Alert for report success -->
+  <!-- <div
+    *ngIf="reportGenerated && reportSuccess"
+    class="alert alert-success alert-dismissible fade show"
+    role="alert"
+  >
+    Your report has been successfully generated. Download your ESG report.
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+    ></button>
+  </div> -->
+
   <!-- Stepper -->
   <div class="stepper mb-4">
-    <div *ngFor="let step of steps; let i = index"
-         class="step"
-         [ngClass]="{ active: i === activeStepIndex }"
-         (click)="goToStep(i)">
-      <div class="circle">{{ i + 1 }}</div>
+    <div
+      *ngFor="let step of steps; let i = index"
+      class="step"
+      [ngClass]="{ active: i === activeStepIndex }"
+      (click)="goToStep(i)"
+    >
+      <div
+        class="circle"
+        [ngClass]="{
+          'bg-success':
+            (i === 0 && reportStatus.governance) ||
+            (i === 1 && reportStatus.social) ||
+            (i === 2 && reportStatus.environmental) ||
+            (i === 3 && reportStatus.generateReport)
+        }"
+      >
+        <span
+          *ngIf="
+            (i === 0 && reportStatus.governance) ||
+            (i === 1 && reportStatus.social) ||
+            (i === 2 && reportStatus.environmental) ||
+            (i === 3 && reportStatus.generateReport)
+          "
+          >✓</span
+        >
+        <span
+          *ngIf="
+            !(
+              (i === 0 && reportStatus.governance) ||
+              (i === 1 && reportStatus.social) ||
+              (i === 2 && reportStatus.environmental) ||
+              (i === 3 && reportStatus.generateReport)
+            )
+          "
+          >{{ i + 1 }}</span
+        >
+      </div>
       <div class="label">{{ step }}</div>
     </div>
   </div>
 
-  <!-- Tabs -->
-  <ul class="nav nav-tabs mb-3 justify-content-between">
+  <!-- Tabs (only show if not on Report step) -->
+  <ul
+    *ngIf="activeStepIndex < 3"
+    class="nav nav-tabs mb-3 justify-content-between"
+  >
     <li class="nav-item" *ngFor="let tab of tabs; let i = index">
-      <a class="nav-link"
-         [class.active]="i === activeTabIndex"
-         (click)="goToTab(i)">
+      <a
+        class="nav-link"
+        [class.active]="i === activeTabIndex"
+        (click)="goToTab(i)"
+      >
         {{ tab }}
       </a>
     </li>
   </ul>
 
   <!-- Board Diversity Form (only if 1st step & 1st tab) -->
+  <!-- <div *ngIf="activeStepIndex === 0 && activeTabIndex === 0"> -->
+  <!-- Existing Board Composition form content -->
+  <!-- </div>  -->
+
+  <!-- Ethical Behavior Form (only if 1st step & 2nd tab) -->
+  <!-- <div *ngIf="activeStepIndex === 0 && activeTabIndex === 1"> -->
+  <!-- Ethical Behavior form content -->
+  <!-- </div> -->
+
+  <!-- Other tabs and steps content here -->
+
+  <!-- Board Diversity Form (only if 1st step & 1st tab) -->
   <div *ngIf="activeStepIndex === 0 && activeTabIndex === 0">
     <h6>1. Board diversity</h6>
-    <hr/>
+    <hr />
     <div class="row">
       <div class="col-md-6">
         <div class="form-group">
-          <label class="col-lg-6 col-form-label">Total number of Board members (#)<span class="text-danger">*</span></label>
+          <label class="col-lg-6 col-form-label"
+            >Total number of Board members (#)<span class="text-danger"
+              >*</span
+            ></label
+          >
           <div class="col-sm-6">
-            <input type="number" class="form-control" [(ngModel)]="formData.totalboardmembers">
+            <input
+              type="number"
+              class="form-control"
+              [(ngModel)]="formData.totalboardmembers"
+            />
           </div>
         </div>
       </div>
       <div class="col-md-6">
         <div class="form-group">
           <label class="col-md-6 col-form-label">
-            Number of Board members who are Black (#)<span class="text-danger">*</span>
+            Number of Board members who are Black (#)<span class="text-danger"
+              >*</span
+            >
           </label>
           <div class="col-sm-6">
-            <input type="number" class="form-control" [(ngModel)]="formData.black.count">
+            <input
+              type="number"
+              class="form-control"
+              [(ngModel)]="formData.black.count"
+            />
           </div>
         </div>
       </div>
@@ -49,19 +127,34 @@
     <div class="row">
       <div class="col-md-6">
         <div class="form-group">
-          <label class="col-sm-6 col-form-label">Percentage of Board members who are black (%)<span class="text-danger">*</span></label>
+          <label class="col-sm-6 col-form-label"
+            >Percentage of Board members who are black (%)<span
+              class="text-danger"
+              >*</span
+            ></label
+          >
           <div class="col-sm-6">
-            <input type="number" class="form-control" [(ngModel)]="formData.black.percent">
+            <input
+              type="number"
+              class="form-control"
+              [(ngModel)]="formData.black.percent"
+            />
           </div>
         </div>
       </div>
       <div class="col-md-6">
         <div class="form-group">
           <label class="col-sm-6 col-form-label">
-            Number of Board members who are White (#)<span class="text-danger">*</span>
+            Number of Board members who are White (#)<span class="text-danger"
+              >*</span
+            >
           </label>
           <div class="col-sm-6">
-            <input type="number" class="form-control" [(ngModel)]="formData.white.count">
+            <input
+              type="number"
+              class="form-control"
+              [(ngModel)]="formData.white.count"
+            />
           </div>
         </div>
       </div>
@@ -70,9 +163,18 @@
     <div class="row">
       <div class="col-md-6">
         <div class="form-group">
-          <label class="col-sm-6 col-form-label">Percentage of Board members who are White (%)<span class="text-danger">*</span></label>
+          <label class="col-sm-6 col-form-label"
+            >Percentage of Board members who are White (%)<span
+              class="text-danger"
+              >*</span
+            ></label
+          >
           <div class="col-sm-6">
-            <input type="number" class="form-control" [(ngModel)]="formData.white.percent">
+            <input
+              type="number"
+              class="form-control"
+              [(ngModel)]="formData.white.percent"
+            />
           </div>
         </div>
       </div>
@@ -82,7 +184,11 @@
             Number of Board members who are Indian (#)
           </label>
           <div class="col-sm-6">
-            <input type="number" class="form-control" [(ngModel)]="formData.indian.count">
+            <input
+              type="number"
+              class="form-control"
+              [(ngModel)]="formData.indian.count"
+            />
           </div>
         </div>
       </div>
@@ -91,19 +197,34 @@
     <div class="row">
       <div class="col-md-6">
         <div class="form-group">
-          <label class="col-sm-6 col-form-label">Percentage of Board members who are Indian (%)<span class="text-danger">*</span></label>
+          <label class="col-sm-6 col-form-label"
+            >Percentage of Board members who are Indian (%)<span
+              class="text-danger"
+              >*</span
+            ></label
+          >
           <div class="col-sm-6">
-            <input type="number" class="form-control" [(ngModel)]="formData.indian.percent">
+            <input
+              type="number"
+              class="form-control"
+              [(ngModel)]="formData.indian.percent"
+            />
           </div>
         </div>
       </div>
       <div class="col-md-6">
         <div class="form-group">
           <label class="col-sm-6 col-form-label">
-            Number of Board members who are Asian (#)<span class="text-danger">*</span>
+            Number of Board members who are Asian (#)<span class="text-danger"
+              >*</span
+            >
           </label>
           <div class="col-sm-6">
-            <input type="number" class="form-control" [(ngModel)]="formData.asian.count">
+            <input
+              type="number"
+              class="form-control"
+              [(ngModel)]="formData.asian.count"
+            />
           </div>
         </div>
       </div>
@@ -112,19 +233,35 @@
     <div class="row">
       <div class="col-md-6">
         <div class="form-group">
-          <label class="col-sm-6 col-form-label">Percentage of Board members who are Asian (%)<span class="text-danger">*</span></label>
+          <label class="col-sm-6 col-form-label"
+            >Percentage of Board members who are Asian (%)<span
+              class="text-danger"
+              >*</span
+            ></label
+          >
           <div class="col-sm-6">
-            <input type="number" class="form-control" [(ngModel)]="formData.asian.percent">
+            <input
+              type="number"
+              class="form-control"
+              [(ngModel)]="formData.asian.percent"
+            />
           </div>
         </div>
       </div>
       <div class="col-md-6">
         <div class="form-group">
           <label class="col-sm-6 col-form-label">
-            Number of Board members who are Coloured (#)<span class="text-danger">*</span>
+            Number of Board members who are Coloured (#)<span
+              class="text-danger"
+              >*</span
+            >
           </label>
           <div class="col-sm-6">
-            <input type="number" class="form-control" [(ngModel)]="formData.coloured.count">
+            <input
+              type="number"
+              class="form-control"
+              [(ngModel)]="formData.coloured.count"
+            />
           </div>
         </div>
       </div>
@@ -133,19 +270,35 @@
     <div class="row">
       <div class="col-md-6">
         <div class="form-group">
-          <label class="col-sm-6 col-form-label">Percentage of Board members who are Coloured (%)<span class="text-danger">*</span></label>
+          <label class="col-sm-6 col-form-label"
+            >Percentage of Board members who are Coloured (%)<span
+              class="text-danger"
+              >*</span
+            ></label
+          >
           <div class="col-sm-6">
-            <input type="number" class="form-control" [(ngModel)]="formData.coloured.percent">
+            <input
+              type="number"
+              class="form-control"
+              [(ngModel)]="formData.coloured.percent"
+            />
           </div>
         </div>
       </div>
       <div class="col-md-6">
         <div class="form-group">
           <label class="col-sm-6 col-form-label">
-            Number of Board members who are below 30 (#)<span class="text-danger">*</span>
+            Number of Board members who are below 30 (#)<span
+              class="text-danger"
+              >*</span
+            >
           </label>
           <div class="col-sm-6">
-            <input type="number" class="form-control" [(ngModel)]="formData.below30.count">
+            <input
+              type="number"
+              class="form-control"
+              [(ngModel)]="formData.below30.count"
+            />
           </div>
         </div>
       </div>
@@ -154,19 +307,35 @@
     <div class="row">
       <div class="col-md-6">
         <div class="form-group">
-          <label class="col-sm-6 col-form-label">Percentage of Board members who are below 30 (%)<span class="text-danger">*</span></label>
+          <label class="col-sm-6 col-form-label"
+            >Percentage of Board members who are below 30 (%)<span
+              class="text-danger"
+              >*</span
+            ></label
+          >
           <div class="col-sm-6">
-            <input type="number" class="form-control" [(ngModel)]="formData.below30.percent">
+            <input
+              type="number"
+              class="form-control"
+              [(ngModel)]="formData.below30.percent"
+            />
           </div>
         </div>
       </div>
       <div class="col-md-6">
         <div class="form-group">
           <label class="col-sm-6 col-form-label">
-            Number of Board members who are between 30 and 50 (#)<span class="text-danger">*</span>
+            Number of Board members who are between 30 and 50 (#)<span
+              class="text-danger"
+              >*</span
+            >
           </label>
           <div class="col-sm-6">
-            <input type="number" class="form-control" [(ngModel)]="formData.between30And50.count">
+            <input
+              type="number"
+              class="form-control"
+              [(ngModel)]="formData.between30And50.count"
+            />
           </div>
         </div>
       </div>
@@ -175,19 +344,34 @@
     <div class="row">
       <div class="col-md-6">
         <div class="form-group">
-          <label class="col-sm-6 col-form-label">Percentage of Board members who are between 30 and 50 (%)<span class="text-danger">*</span></label>
+          <label class="col-sm-6 col-form-label"
+            >Percentage of Board members who are between 30 and 50 (%)<span
+              class="text-danger"
+              >*</span
+            ></label
+          >
           <div class="col-sm-6">
-            <input type="number" class="form-control" [(ngModel)]="formData.between30And50.percent">
+            <input
+              type="number"
+              class="form-control"
+              [(ngModel)]="formData.between30And50.percent"
+            />
           </div>
         </div>
       </div>
       <div class="col-md-6">
         <div class="form-group">
           <label class="col-sm-6 col-form-label">
-            Number of Board members who are over 50 (#)<span class="text-danger">*</span>
+            Number of Board members who are over 50 (#)<span class="text-danger"
+              >*</span
+            >
           </label>
           <div class="col-sm-6">
-            <input type="number" class="form-control" [(ngModel)]="formData.over50.count">
+            <input
+              type="number"
+              class="form-control"
+              [(ngModel)]="formData.over50.count"
+            />
           </div>
         </div>
       </div>
@@ -196,19 +380,34 @@
     <div class="row">
       <div class="col-md-6">
         <div class="form-group">
-          <label class="col-sm-6 col-form-label">Percentage of Board members who are over 50 (%)<span class="text-danger">*</span></label>
+          <label class="col-sm-6 col-form-label"
+            >Percentage of Board members who are over 50 (%)<span
+              class="text-danger"
+              >*</span
+            ></label
+          >
           <div class="col-sm-6">
-            <input type="number" class="form-control" [(ngModel)]="formData.over50.percent">
+            <input
+              type="number"
+              class="form-control"
+              [(ngModel)]="formData.over50.percent"
+            />
           </div>
         </div>
       </div>
       <div class="col-md-6">
         <div class="form-group">
           <label class="col-sm-6 col-form-label">
-            Number of Board members who are Female (#)<span class="text-danger">*</span>
+            Number of Board members who are Female (#)<span class="text-danger"
+              >*</span
+            >
           </label>
           <div class="col-sm-6">
-            <input type="number" class="form-control" [(ngModel)]="formData.female.count">
+            <input
+              type="number"
+              class="form-control"
+              [(ngModel)]="formData.female.count"
+            />
           </div>
         </div>
       </div>
@@ -217,19 +416,34 @@
     <div class="row">
       <div class="col-md-6">
         <div class="form-group">
-          <label class="col-sm-6 col-form-label">Percentage of Board members who are Female (%)<span class="text-danger">*</span></label>
+          <label class="col-sm-6 col-form-label"
+            >Percentage of Board members who are Female (%)<span
+              class="text-danger"
+              >*</span
+            ></label
+          >
           <div class="col-sm-6">
-            <input type="number" class="form-control" [(ngModel)]="formData.female.percent">
+            <input
+              type="number"
+              class="form-control"
+              [(ngModel)]="formData.female.percent"
+            />
           </div>
         </div>
       </div>
       <div class="col-md-6">
         <div class="form-group">
           <label class="col-sm-6 col-form-label">
-            Number of Board members who are Male (#)<span class="text-danger">*</span>
+            Number of Board members who are Male (#)<span class="text-danger"
+              >*</span
+            >
           </label>
           <div class="col-sm-6">
-            <input type="number" class="form-control" [(ngModel)]="formData.male.count">
+            <input
+              type="number"
+              class="form-control"
+              [(ngModel)]="formData.male.count"
+            />
           </div>
         </div>
       </div>
@@ -238,78 +452,715 @@
     <div class="row mb-3">
       <div class="col-md-6">
         <div class="form-group">
-          <label class="col-sm-6 col-form-label">Percentage of Board members who are Male (%)<span class="text-danger">*</span></label>
+          <label class="col-sm-6 col-form-label"
+            >Percentage of Board members who are Male (%)<span
+              class="text-danger"
+              >*</span
+            ></label
+          >
           <div class="col-sm-6">
-            <input type="number" class="form-control" [(ngModel)]="formData.female.percent">
+            <input
+              type="number"
+              class="form-control"
+              [(ngModel)]="formData.female.percent"
+            />
           </div>
         </div>
       </div>
-      
     </div>
 
     <h6>2. Board Profile</h6>
-    <hr/>
+    <hr />
     <div class="row">
       <div class="col-md-12">
-          <div class="form-group">
-            <label class="col-form-label">Board Profile<span class="text-danger">*</span></label>
-            <textarea class="form-control" rows="4" [(ngModel)]="formData.boardprofile"></textarea>
-          </div>
+        <div class="form-group">
+          <label class="col-form-label"
+            >Board Profile<span class="text-danger">*</span></label
+          >
+          <textarea
+            class="form-control"
+            rows="4"
+            [(ngModel)]="formData.boardprofile"
+          ></textarea>
+        </div>
       </div>
     </div>
-  </div> 
-
+  </div>
 
   <!-- Tabs -->
-<div *ngIf="activeStepIndex === 0 && activeTabIndex === 1">
-  <h6>1.Ethical Behaviour</h6>
-</div>
+  <div *ngIf="activeStepIndex === 0 && activeTabIndex === 1">
+    <!-- Ethical Behavior Form (only if 1st step & 2nd tab) -->
+    <div *ngIf="activeStepIndex === 0 && activeTabIndex === 1">
+      <h6>1. Code of Ethics & Anti-Corruption</h6>
+      <hr />
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="col-sm-12 col-form-label"
+              >Does your organization have a Code of Ethics/Conduct?<span
+                class="text-danger"
+                >*</span
+              ></label
+            >
+            <div class="col-sm-8">
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="codeOfEthicsExists"
+                  id="codeExists1"
+                  [value]="true"
+                  [(ngModel)]="ethicalFormData.codeOfEthicsExists"
+                />
+                <label class="form-check-label" for="codeExists1">Yes</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="codeOfEthicsExists"
+                  id="codeExists2"
+                  [value]="false"
+                  [(ngModel)]="ethicalFormData.codeOfEthicsExists"
+                />
+                <label class="form-check-label" for="codeExists2">No</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="col-md-12 col-form-label">
+              Is your Code of Ethics publicly available?<span
+                class="text-danger"
+                >*</span
+              >
+            </label>
+            <div class="col-sm-8">
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="codePublic"
+                  id="codePublic1"
+                  [value]="true"
+                  [(ngModel)]="ethicalFormData.codeOfEthicsPubliclyAvailable"
+                />
+                <label class="form-check-label" for="codePublic1">Yes</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="codePublic"
+                  id="codePublic2"
+                  [value]="false"
+                  [(ngModel)]="ethicalFormData.codeOfEthicsPubliclyAvailable"
+                />
+                <label class="form-check-label" for="codePublic2">No</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-<div *ngIf="activeStepIndex === 0 && activeTabIndex === 2">
-  <h6>1. Compliance and risk</h6>
-</div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="col-sm-12 col-form-label"
+              >When was your Code of Ethics last updated? (YYYY-MM-DD)<span
+                class="text-danger"
+                >*</span
+              ></label
+            >
+            <div class="col-sm-8">
+              <input
+                type="date"
+                class="form-control"
+                [(ngModel)]="ethicalFormData.codeOfEthicsLastUpdated"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="col-sm-12 col-form-label">
+              How frequently do employees receive ethics training?<span
+                class="text-danger"
+                >*</span
+              >
+            </label>
+            <div class="col-sm-8">
+              <select
+                class="form-select"
+                [(ngModel)]="ethicalFormData.trainingFrequency"
+              >
+                <option value="">Select frequency</option>
+                <option value="Annually">Annually</option>
+                <option value="Bi-annually">Bi-annually</option>
+                <option value="Quarterly">Quarterly</option>
+                <option value="Monthly">Monthly</option>
+                <option value="Onboarding only">Onboarding only</option>
+                <option value="Never">Never</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
 
-<div *ngIf="activeStepIndex === 0 && activeTabIndex === 3">
-  <h6>1. Tax Transparency</h6>
-</div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="col-sm-12 col-form-label"
+              >Number of employees covered by ethics training<span
+                class="text-danger"
+                >*</span
+              ></label
+            >
+            <div class="col-sm-8">
+              <input
+                type="number"
+                class="form-control"
+                [(ngModel)]="ethicalFormData.employeesCoveredByTraining"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="col-sm-12 col-form-label">
+              Percentage of employees covered by ethics training (%)<span
+                class="text-danger"
+                >*</span
+              >
+            </label>
+            <div class="col-sm-8">
+              <input
+                type="number"
+                class="form-control"
+                [(ngModel)]="ethicalFormData.employeeTrainingPercentage"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
 
- <!-- Step: Social -->
- <div *ngIf="activeStepIndex === 1 && activeTabIndex === 0">
-  <h6>1.Board Composition - Social</h6>
-</div>
+      <h6 class="mt-4">2. Whistleblower Protection</h6>
+      <hr />
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="col-sm-12 col-form-label"
+              >Does your organization have a whistleblower mechanism?<span
+                class="text-danger"
+                >*</span
+              ></label
+            >
+            <div class="col-sm-8">
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="whistleblowerExists"
+                  id="whistleblowerExists1"
+                  [value]="true"
+                  [(ngModel)]="ethicalFormData.whistleblowerMechanismExists"
+                />
+                <label class="form-check-label" for="whistleblowerExists1"
+                  >Yes</label
+                >
+              </div>
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="whistleblowerExists"
+                  id="whistleblowerExists2"
+                  [value]="false"
+                  [(ngModel)]="ethicalFormData.whistleblowerMechanismExists"
+                />
+                <label class="form-check-label" for="whistleblowerExists2"
+                  >No</label
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="col-sm-12 col-form-label">
+              What reporting channels are available?<span class="text-danger"
+                >*</span
+              >
+            </label>
+            <div class="col-sm-8">
+              <select
+                class="form-select"
+                [(ngModel)]="ethicalFormData.whistleblowerReportingChannel"
+              >
+                <option value="">Select channel</option>
+                <option value="Hotline">Dedicated hotline</option>
+                <option value="Email">Email</option>
+                <option value="Web portal">Web portal</option>
+                <option value="Multiple channels">Multiple channels</option>
+                <option value="Third party provider">
+                  Third party provider
+                </option>
+                <option value="None">None</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
 
- <div *ngIf="activeStepIndex === 1 && activeTabIndex === 1">
-  <h6>1.Ethical Behaviour - Social</h6>
-</div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="col-sm-12 col-form-label"
+              >Do you allow anonymous reporting?<span class="text-danger"
+                >*</span
+              ></label
+            >
+            <div class="col-sm-8">
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="anonymousReporting"
+                  id="anonymousReporting1"
+                  [value]="true"
+                  [(ngModel)]="ethicalFormData.whistleblowerAnonymousReporting"
+                />
+                <label class="form-check-label" for="anonymousReporting1"
+                  >Yes</label
+                >
+              </div>
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="anonymousReporting"
+                  id="anonymousReporting2"
+                  [value]="false"
+                  [(ngModel)]="ethicalFormData.whistleblowerAnonymousReporting"
+                />
+                <label class="form-check-label" for="anonymousReporting2"
+                  >No</label
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="col-sm-12 col-form-label">
+              Do you have a whistleblower protection policy?<span
+                class="text-danger"
+                >*</span
+              >
+            </label>
+            <div class="col-sm-8">
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="protectionPolicy"
+                  id="protectionPolicy1"
+                  [value]="true"
+                  [(ngModel)]="ethicalFormData.whistleblowerProtectionPolicy"
+                />
+                <label class="form-check-label" for="protectionPolicy1"
+                  >Yes</label
+                >
+              </div>
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="protectionPolicy"
+                  id="protectionPolicy2"
+                  [value]="false"
+                  [(ngModel)]="ethicalFormData.whistleblowerProtectionPolicy"
+                />
+                <label class="form-check-label" for="protectionPolicy2"
+                  >No</label
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-<div *ngIf="activeStepIndex === 1 && activeTabIndex === 2">
-  <h6>1. Compliance and risk - social</h6>
-</div>
+      <h6 class="mt-4">3. Ethics Incidents & Management</h6>
+      <hr />
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="col-sm-12 col-form-label"
+              >Does your organization conduct annual ethics assessments?<span
+                class="text-danger"
+                >*</span
+              ></label
+            >
+            <div class="col-sm-8">
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="annualAssessment"
+                  id="annualAssessment1"
+                  [value]="true"
+                  [(ngModel)]="ethicalFormData.annualEthicsAssessment"
+                />
+                <label class="form-check-label" for="annualAssessment1"
+                  >Yes</label
+                >
+              </div>
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="annualAssessment"
+                  id="annualAssessment2"
+                  [value]="false"
+                  [(ngModel)]="ethicalFormData.annualEthicsAssessment"
+                />
+                <label class="form-check-label" for="annualAssessment2"
+                  >No</label
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="col-sm-12 col-form-label">
+              Number of reported ethics incidents in the last fiscal year<span
+                class="text-danger"
+                >*</span
+              >
+            </label>
+            <div class="col-sm-8">
+              <input
+                type="number"
+                class="form-control"
+                [(ngModel)]="ethicalFormData.numberOfReportedIncidents"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
 
-<div *ngIf="activeStepIndex === 1 && activeTabIndex === 3">
-  <h6>1. Tax Transparency - Social</h6>
-</div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="col-sm-12 col-form-label"
+              >Number of investigated incidents<span class="text-danger"
+                >*</span
+              ></label
+            >
+            <div class="col-sm-8">
+              <input
+                type="number"
+                class="form-control"
+                [(ngModel)]="ethicalFormData.numberOfInvestigatedIncidents"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="col-sm-12 col-form-label">
+              Number of resolved incidents<span class="text-danger">*</span>
+            </label>
+            <div class="col-sm-8">
+              <input
+                type="number"
+                class="form-control"
+                [(ngModel)]="ethicalFormData.numberOfResolvedIncidents"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="col-sm-12 col-form-label"
+              >Average resolution time in days<span class="text-danger"
+                >*</span
+              ></label
+            >
+            <div class="col-sm-8">
+              <input
+                type="number"
+                class="form-control"
+                [(ngModel)]="ethicalFormData.averageResolutionTimeInDays"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="col-sm-12 col-form-label">
+              Do you have a dedicated Ethics Officer?<span class="text-danger"
+                >*</span
+              >
+            </label>
+            <div class="col-sm-8">
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="ethicsOfficer"
+                  id="ethicsOfficer1"
+                  [value]="true"
+                  [(ngModel)]="ethicalFormData.ethicsOfficerExists"
+                />
+                <label class="form-check-label" for="ethicsOfficer1">Yes</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="ethicsOfficer"
+                  id="ethicsOfficer2"
+                  [value]="false"
+                  [(ngModel)]="ethicalFormData.ethicsOfficerExists"
+                />
+                <label class="form-check-label" for="ethicsOfficer2">No</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="col-sm-12 col-form-label"
+              >Does your board have an ethics committee?<span
+                class="text-danger"
+                >*</span
+              ></label
+            >
+            <div class="col-sm-8">
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="ethicsCommittee"
+                  id="ethicsCommittee1"
+                  [value]="true"
+                  [(ngModel)]="ethicalFormData.boardEthicsCommitteeExists"
+                />
+                <label class="form-check-label" for="ethicsCommittee1"
+                  >Yes</label
+                >
+              </div>
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="ethicsCommittee"
+                  id="ethicsCommittee2"
+                  [value]="false"
+                  [(ngModel)]="ethicalFormData.boardEthicsCommitteeExists"
+                />
+                <label class="form-check-label" for="ethicsCommittee2"
+                  >No</label
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="col-sm-12 col-form-label">
+              How frequently do you conduct ethics audits?<span
+                class="text-danger"
+                >*</span
+              >
+            </label>
+            <div class="col-sm-8">
+              <select
+                class="form-select"
+                [(ngModel)]="ethicalFormData.ethicsAuditFrequency"
+              >
+                <option value="">Select frequency</option>
+                <option value="Annually">Annually</option>
+                <option value="Bi-annually">Bi-annually</option>
+                <option value="Every 2-3 years">Every 2-3 years</option>
+                <option value="As needed">As needed</option>
+                <option value="Never">Never</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="col-sm-12 col-form-label"
+              >Do you have a supplier code of conduct?<span class="text-danger"
+                >*</span
+              ></label
+            >
+            <div class="col-sm-8">
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="supplierCode"
+                  id="supplierCode1"
+                  [value]="true"
+                  [(ngModel)]="ethicalFormData.supplierCodeOfConductExists"
+                />
+                <label class="form-check-label" for="supplierCode1">Yes</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="supplierCode"
+                  id="supplierCode2"
+                  [value]="false"
+                  [(ngModel)]="ethicalFormData.supplierCodeOfConductExists"
+                />
+                <label class="form-check-label" for="supplierCode2">No</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="col-form-label"
+              >Description of approach to ethical behavior and
+              anti-corruption<span class="text-danger">*</span></label
+            >
+            <textarea
+              class="form-control"
+              rows="4"
+              [(ngModel)]="ethicalFormData.descriptionOfApproach"
+            ></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="activeStepIndex === 0 && activeTabIndex === 2">
+    <h6>1. Compliance and risk</h6>
+  </div>
+
+  <div *ngIf="activeStepIndex === 0 && activeTabIndex === 3">
+    <h6>1. Tax Transparency</h6>
+  </div>
+
+  <!-- Step: Social -->
+  <div *ngIf="activeStepIndex === 1 && activeTabIndex === 0">
+    <h6>1.Board Composition - Social</h6>
+  </div>
+
+  <div *ngIf="activeStepIndex === 1 && activeTabIndex === 1">
+    <h6>1.Ethical Behaviour - Social</h6>
+  </div>
+
+  <div *ngIf="activeStepIndex === 1 && activeTabIndex === 2">
+    <h6>1. Compliance and risk - social</h6>
+  </div>
+
+  <div *ngIf="activeStepIndex === 1 && activeTabIndex === 3">
+    <h6>1. Tax Transparency - Social</h6>
+  </div>
+
+  <!-- Step: Environmental -->
+  <div *ngIf="activeStepIndex === 2 && activeTabIndex === 0">
+    <h6>1.Board Composition - Environmental</h6>
+  </div>
+
+  <div *ngIf="activeStepIndex === 2 && activeTabIndex === 1">
+    <h6>1.Ethical Behaviour - Environmental</h6>
+  </div>
+
+  <div *ngIf="activeStepIndex === 2 && activeTabIndex === 2">
+    <h6>1. Compliance and risk - Environmental</h6>
+  </div>
+
+  <div *ngIf="activeStepIndex === 2 && activeTabIndex === 3">
+    <h6>1. Tax Transparency - Environmental</h6>
+  </div>
+
   
-    <!-- Step: Environmental -->
-    <div *ngIf="activeStepIndex === 2 && activeTabIndex === 0">
-      <h6>1.Board Composition - Environmental</h6>
+  <!-- Report Generation Step -->
+  <div *ngIf="activeStepIndex === 3" class="text-center py-4">
+    <!-- Success notification (matches Image 2) -->
+    <div
+      *ngIf="reportGenerated && reportSuccess"
+      class="alert alert-success alert-dismissible fade show"
+      role="alert"
+    >
+      Your report has been successfully generated. Download your ESG report.
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="alert"
+        aria-label="Close"
+      ></button>
     </div>
 
-    <div *ngIf="activeStepIndex === 2 && activeTabIndex === 1">
-      <h6>1.Ethical Behaviour - Environmental</h6>
+    <!-- Stepper visualization (matching Image 1 and 2) -->
+    <!-- <div class="d-flex justify-content-center mb-5">
+      <div class="stepper" style="width: 80%">
+        <div
+          *ngFor="let step of steps; let i = index"
+          class="step text-center position-relative"
+        >
+          <div
+            class="circle bg-success d-flex justify-content-center align-items-center"
+          >
+            <span class="text-white">✓</span>
+          </div>
+          <div class="label">{{ step }}</div>
+        </div>
+      </div>
+    </div> -->
+
+    <!-- Simple button row (matches Image 1 and 2) -->
+    <div class="d-flex justify-content-center mt-5">
+      <button class="btn btn-outline-secondary me-3" (click)="clearForm()">
+        Clear
+      </button>
+
+      <button
+        *ngIf="!isGeneratingReport && !reportGenerated"
+        class="btn btn-success"
+        (click)="generateReport()"
+      >
+        Generate Report
+      </button>
+
+      <button *ngIf="isGeneratingReport" class="btn btn-success" disabled>
+        <span
+          class="spinner-border spinner-border-sm me-2"
+          role="status"
+          aria-hidden="true"
+        ></span>
+        Generating...
+      </button>
+
+      <button
+        *ngIf="reportGenerated"
+        class="btn btn-success"
+        (click)="downloadReport()"
+      >
+        Download
+      </button>
     </div>
-  
-    <div *ngIf="activeStepIndex === 2 && activeTabIndex === 2">
-      <h6>1. Compliance and risk - Environmental</h6>
-    </div>
-  
-    <div *ngIf="activeStepIndex === 2 && activeTabIndex === 3">
-      <h6>1. Tax Transparency - Environmental</h6>
-    </div>
-  
-    <!-- Step: Report -->
-    <div *ngIf="activeStepIndex === 3 && activeTabIndex === 0">
-      <h6>1.Generate Report</h6>
-    </div>
-  
-   
+  </div>
+</div>
