@@ -185,9 +185,39 @@ export class AppComponent {
       this.environmentalEthicalData.environmentalImpactDescription.length > 0;
   }
 
+  // generateReport() {
+  //   this.isGeneratingReport = true;
+  //   this.reportGenerated = false;
+
+  //   // If using AI report generation, we'll just set a flag
+  //   // The actual AI report generation happens in downloadReport
+  //   if (this.isGeneratingAIReport) {
+  //     // Simulate report preparation with a short delay
+  //     setTimeout(() => {
+  //       this.isGeneratingReport = false;
+  //       this.reportGenerated = true;
+  //       this.reportSuccess = true;
+  //       this.reportStatus.generateReport = true;
+  //       this.saveData();
+  //     }, 1000);
+  //   } else {
+  //     // Standard report generation with a delay
+  //     setTimeout(() => {
+  //       this.isGeneratingReport = false;
+  //       this.reportGenerated = true;
+  //       this.reportSuccess = true;
+  //       this.reportStatus.generateReport = true;
+  //       this.saveData();
+  //     }, 2000);
+  //   }
+  // }
+
+
+
   generateReport() {
     this.isGeneratingReport = true;
     this.reportGenerated = false;
+    this.aiReportError = null;
 
     // If using AI report generation, we'll just set a flag
     // The actual AI report generation happens in downloadReport
@@ -212,6 +242,37 @@ export class AppComponent {
     }
   }
 
+
+
+  // downloadReport() {
+  //   // Check if we should generate a basic report or an AI-powered visual report
+  //   if (!this.isGeneratingAIReport) {
+  //     // Use the report service to generate a basic formatted report
+  //     const blob = this.reportService.generateESGReport(
+  //       this.formData,
+  //       this.ethicalFormData,
+  //       this.socialEthicalData,
+  //       this.environmentalEthicalData
+  //     );
+
+  //     const url = window.URL.createObjectURL(blob);
+
+  //     const a = document.createElement('a');
+  //     a.href = url;
+  //     a.download = 'ESG_Sustainability_Report.json';
+  //     document.body.appendChild(a);
+  //     a.click();
+
+  //     window.URL.revokeObjectURL(url);
+  //     document.body.removeChild(a);
+  //   } else {
+  //     // Generate an AI-powered visual report
+  //     this.generateAIReport();
+  //   }
+  // }
+
+
+
   downloadReport() {
     // Check if we should generate a basic report or an AI-powered visual report
     if (!this.isGeneratingAIReport) {
@@ -222,15 +283,15 @@ export class AppComponent {
         this.socialEthicalData,
         this.environmentalEthicalData
       );
-      
+
       const url = window.URL.createObjectURL(blob);
-      
+
       const a = document.createElement('a');
       a.href = url;
       a.download = 'ESG_Sustainability_Report.json';
       document.body.appendChild(a);
       a.click();
-      
+
       window.URL.revokeObjectURL(url);
       document.body.removeChild(a);
     } else {
@@ -239,6 +300,57 @@ export class AppComponent {
     }
   }
 
+
+  // /**
+  //  * Generate an AI-powered ESG report using OpenAI
+  //  */
+  // generateAIReport() {
+  //   this.isGeneratingAIReport = true;
+  //   this.aiReportError = null;
+  //   this.generationProgress = 10;
+
+  //   // Call the OpenAI service to generate the report
+  //   this.openAIService.generateESGReport(
+  //     this.companyName,
+  //     this.reportYear,
+  //     this.formData,
+  //     this.ethicalFormData,
+  //     this.socialEthicalData,
+  //     this.environmentalEthicalData
+  //   ).subscribe({
+  //     next: (blob) => {
+  //       this.generationProgress = 100;
+
+  //       // Create a download link for the generated PDF
+  //       const url = window.URL.createObjectURL(blob);
+
+  //       const a = document.createElement('a');
+  //       a.href = url;
+  //       a.download = `${this.companyName}_ESG_Report_${this.reportYear}.pdf`;
+  //       document.body.appendChild(a);
+  //       a.click();
+
+  //       window.URL.revokeObjectURL(url);
+  //       document.body.removeChild(a);
+
+  //       // Reset state after successful generation
+  //       setTimeout(() => {
+  //         this.isGeneratingAIReport = false;
+  //         this.generationProgress = 0;
+  //         this.reportSuccess = true;
+  //       }, 1000);
+  //     },
+  //     error: (error) => {
+  //       this.isGeneratingAIReport = false;
+  //       this.aiReportError = error.message || 'Failed to generate AI report';
+  //       this.generationProgress = 0;
+  //       console.error('Error generating AI report:', error);
+  //     }
+  //   });
+  // }
+
+
+
   /**
    * Generate an AI-powered ESG report using OpenAI
    */
@@ -246,8 +358,9 @@ export class AppComponent {
     this.isGeneratingAIReport = true;
     this.aiReportError = null;
     this.generationProgress = 10;
-    
+
     // Call the OpenAI service to generate the report
+    // The service now properly creates a PDF and has progress tracking
     this.openAIService.generateESGReport(
       this.companyName,
       this.reportYear,
@@ -256,21 +369,29 @@ export class AppComponent {
       this.socialEthicalData,
       this.environmentalEthicalData
     ).subscribe({
-      next: (blob) => {
+      next: (result: any) => {
+        // Update the progress if it's included in the result
+        if (result.progress && typeof result.progress === 'number') {
+          this.generationProgress = result.progress;
+          return; // This is just a progress update, not the final blob
+        }
+
+        // When we receive the final PDF blob
         this.generationProgress = 100;
-        
+
         // Create a download link for the generated PDF
-        const url = window.URL.createObjectURL(blob);
-        
+        const url = window.URL.createObjectURL(result);
+
         const a = document.createElement('a');
         a.href = url;
+        // Make sure we set the file extension to .pdf for proper handling
         a.download = `${this.companyName}_ESG_Report_${this.reportYear}.pdf`;
         document.body.appendChild(a);
         a.click();
-        
+
         window.URL.revokeObjectURL(url);
         document.body.removeChild(a);
-        
+
         // Reset state after successful generation
         setTimeout(() => {
           this.isGeneratingAIReport = false;
@@ -286,6 +407,8 @@ export class AppComponent {
       }
     });
   }
+
+
 
   /**
    * Update report settings
