@@ -7,12 +7,15 @@ import { SocialEthicalData } from './models/social-ethical.model';
 import { EnvironmentalEthicalData } from './models/environmental-ethical.model';
 import { ReportStatus } from './models/report.model';
 import { ReportService } from './services/report.service';
+import { OpenAIService } from './services/opeanai.service';
 import { LogoComponent } from './components/logo/logo.component';
+import { ReportSettingsComponent, ReportSettings } from './components/report-settings/report-settings.component';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  imports: [CommonModule, FormsModule, LogoComponent],
+  imports: [CommonModule, FormsModule, LogoComponent, ReportSettingsComponent],
   standalone: true,
   styleUrls: ['app.component.css']
 })
@@ -106,7 +109,19 @@ export class AppComponent {
   reportGenerated = false;
   reportSuccess = false;
 
-  constructor(private reportService: ReportService) {
+  // Report settings
+  companyName = environment.companyName;
+  reportYear = environment.reportYear;
+
+  // OpenAI generation states
+  isGeneratingAIReport = false;
+  aiReportError: string | null = null;
+  generationProgress = 0;
+
+  constructor(
+    private reportService: ReportService,
+    private openAIService: OpenAIService
+  ) {
     // Check if we have previously saved data
     this.loadSavedData();
   }
@@ -174,35 +189,110 @@ export class AppComponent {
     this.isGeneratingReport = true;
     this.reportGenerated = false;
 
-    // Simulate report generation with a delay
-    setTimeout(() => {
-      this.isGeneratingReport = false;
-      this.reportGenerated = true;
-      this.reportSuccess = true;
-      this.reportStatus.generateReport = true;
-      this.saveData();
-    }, 2000);
+    // If using AI report generation, we'll just set a flag
+    // The actual AI report generation happens in downloadReport
+    if (this.isGeneratingAIReport) {
+      // Simulate report preparation with a short delay
+      setTimeout(() => {
+        this.isGeneratingReport = false;
+        this.reportGenerated = true;
+        this.reportSuccess = true;
+        this.reportStatus.generateReport = true;
+        this.saveData();
+      }, 1000);
+    } else {
+      // Standard report generation with a delay
+      setTimeout(() => {
+        this.isGeneratingReport = false;
+        this.reportGenerated = true;
+        this.reportSuccess = true;
+        this.reportStatus.generateReport = true;
+        this.saveData();
+      }, 2000);
+    }
   }
 
   downloadReport() {
-    // Use the report service to generate a properly formatted report
-    const blob = this.reportService.generateESGReport(
+    // Check if we should generate a basic report or an AI-powered visual report
+    if (!this.isGeneratingAIReport) {
+      // Use the report service to generate a basic formatted report
+      const blob = this.reportService.generateESGReport(
+        this.formData,
+        this.ethicalFormData,
+        this.socialEthicalData,
+        this.environmentalEthicalData
+      );
+      
+      const url = window.URL.createObjectURL(blob);
+      
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'ESG_Sustainability_Report.json';
+      document.body.appendChild(a);
+      a.click();
+      
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    } else {
+      // Generate an AI-powered visual report
+      this.generateAIReport();
+    }
+  }
+
+  /**
+   * Generate an AI-powered ESG report using OpenAI
+   */
+  generateAIReport() {
+    this.isGeneratingAIReport = true;
+    this.aiReportError = null;
+    this.generationProgress = 10;
+    
+    // Call the OpenAI service to generate the report
+    this.openAIService.generateESGReport(
+      this.companyName,
+      this.reportYear,
       this.formData,
       this.ethicalFormData,
       this.socialEthicalData,
       this.environmentalEthicalData
-    );
+    ).subscribe({
+      next: (blob) => {
+        this.generationProgress = 100;
+        
+        // Create a download link for the generated PDF
+        const url = window.URL.createObjectURL(blob);
+        
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${this.companyName}_ESG_Report_${this.reportYear}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+        
+        // Reset state after successful generation
+        setTimeout(() => {
+          this.isGeneratingAIReport = false;
+          this.generationProgress = 0;
+          this.reportSuccess = true;
+        }, 1000);
+      },
+      error: (error) => {
+        this.isGeneratingAIReport = false;
+        this.aiReportError = error.message || 'Failed to generate AI report';
+        this.generationProgress = 0;
+        console.error('Error generating AI report:', error);
+      }
+    });
+  }
 
-    const url = window.URL.createObjectURL(blob);
-
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'ESG_Sustainability_Report.json';
-    document.body.appendChild(a);
-    a.click();
-
-    window.URL.revokeObjectURL(url);
-    document.body.removeChild(a);
+  /**
+   * Update report settings
+   */
+  updateReportSettings(settings: ReportSettings) {
+    this.companyName = settings.companyName;
+    this.reportYear = settings.reportYear;
   }
 
   clearForm() {

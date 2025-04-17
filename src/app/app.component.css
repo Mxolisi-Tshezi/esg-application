@@ -164,82 +164,33 @@
   height: 1rem;
 }
 
-/* Additional styles for the report generation page */
-
-.stepper-container {
-  width: 80%;
-  margin: 0 auto;
-  padding: 30px 0;
+/* AI Report Generation Styles */
+.form-check-input:checked {
+  background-color: #4caf50;
+  border-color: #4caf50;
 }
 
-.alert-success {
-  background-color: #7cc14c;
-  color: white;
-  border: none;
-  padding: 12px;
-  position: relative;
+.progress {
+  height: 10px;
+  border-radius: 6px;
 }
 
-.alert-success .btn-close {
-  color: white;
-  opacity: 1;
+.progress-bar {
+  background-color: #4caf50;
+  transition: width 0.6s ease;
 }
 
-.report-success-icon {
-  color: #5bae2e;
-  font-size: 24px;
-  margin-bottom: 15px;
+.card {
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-bottom: 1.5rem;
 }
 
-.report-actions {
-  margin-top: 40px;
-}
-
-.btn-success {
-  background-color: #7cc14c;
-  border-color: #7cc14c;
-  padding: 8px 24px;
-}
-
-.btn-outline-secondary {
-  border-color: #d3d3d3;
-  color: #666;
-  padding: 8px 24px;
-}
-
-.report-stepper .step .circle {
-  width: 36px;
-  height: 36px;
-  background-color: #7cc14c;
-}
-
-.report-generation-complete .label {
+.card-header {
+  border-radius: 8px 8px 0 0 !important;
   font-weight: 500;
 }
 
-.report-generation-card {
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  padding: 30px;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-/* Animation for the generating state */
-@keyframes pulse {
-  0% {
-    opacity: 0.6;
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0.6;
-  }
-}
-
-.generating-text {
-  animation: pulse 1.5s infinite ease-in-out;
-  color: #5bae2e;
+.text-start {
+  text-align: left !important;
 }
